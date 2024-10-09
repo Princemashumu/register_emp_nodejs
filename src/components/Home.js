@@ -32,6 +32,22 @@ const CompanyName = styled.div`
   }
 `;
 
+const Menu = styled.div`
+  display: flex;
+  gap: 20px; /* Space between menu items */
+`;
+
+const MenuLink = styled(Link)`
+  text-decoration: none;
+  color: #004d40;
+  font-size: 1em;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: #f44336; /* Change color on hover */
+  }
+`;
+
 const LogoutButton = styled.button`
   background-color: #f44336;
   color: white;
@@ -96,6 +112,12 @@ const Home = () => {
             <h1>ERStaff</h1>
           </Link>
         </CompanyName>
+        
+        <Menu>
+          <MenuLink to="/admins">Admins</MenuLink>
+          <MenuLink to="/profile">Profile</MenuLink>
+        </Menu>
+
         <LogoutButton onClick={handleLogout}>
           LOGOUT
         </LogoutButton>

@@ -21,7 +21,7 @@ var firebaseConfig = {
   projectId: "employee-registration-5087d",
   storageBucket: "employee-registration-5087d.appspot.com",
   messagingSenderId: "1082786057643",
-  appId: "1:1082786057643:web:de0d2ecc2f133b501f56ee",
+  appId: "1:1082786057643:web:f51a7d951eaf194a1f56ee",
   measurementId: "G-0BDECXS3LL"
 }; // Initialize Firebase
 

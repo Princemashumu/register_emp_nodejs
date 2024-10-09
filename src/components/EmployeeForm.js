@@ -1,34 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
-
-const FormContainer = styled.div`
-  margin-bottom: 20px;
-`;
-
-const StyledForm = styled.form`
-  display: flex;
-  flex-direction: column;
-`;
-
-const Input = styled.input`
-  padding: 10px;
-  margin: 5px 0;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-`;
-
-const Button = styled.button`
-  padding: 10px;
-  border: none;
-  border-radius: 4px;
-  background-color: #28a745;
-  color: white;
-  cursor: pointer;
-  
-  &:hover {
-    background-color: #218838;
-  }
-`;
+import React, { useState, useEffect } from 'react';
 
 const EmployeeForm = ({ onSubmit, editingEmployee, setEditingEmployee }) => {
   const [name, setName] = useState('');
@@ -36,7 +6,7 @@ const EmployeeForm = ({ onSubmit, editingEmployee, setEditingEmployee }) => {
   const [age, setAge] = useState('');
   const [idNumber, setIdNumber] = useState('');
   const [role, setRole] = useState('');
-  const [photo, setPhoto] = useState(null);
+  const [photo, setPhoto] = useState(null); // For storing the file object
 
   useEffect(() => {
     if (editingEmployee) {
@@ -45,78 +15,40 @@ const EmployeeForm = ({ onSubmit, editingEmployee, setEditingEmployee }) => {
       setAge(editingEmployee.age);
       setIdNumber(editingEmployee.idNumber);
       setRole(editingEmployee.role);
+      setPhoto(editingEmployee.photo); // Set the photo if editing
     } else {
       setName('');
       setSurname('');
       setAge('');
       setIdNumber('');
       setRole('');
+      setPhoto(null);
     }
   }, [editingEmployee]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit({ name, surname, age, idNumber, role, photo });
-    setName('');
-    setSurname('');
-    setAge('');
-    setIdNumber('');
-    setRole('');
-    setEditingEmployee(null);
-  };
-
-  const handleFileChange = (e) => {
-    setPhoto(e.target.files[0]);
+    const employeeData = {
+      name,
+      surname,
+      age,
+      idNumber,
+      role,
+      photo // Pass the file object here
+    };
+    onSubmit(employeeData);
   };
 
   return (
-    <FormContainer>
-      <StyledForm onSubmit={handleSubmit}>
-        <Input 
-          type="text" 
-          placeholder="Name" 
-          value={name} 
-          onChange={(e) => setName(e.target.value)} 
-          required 
-        />
-        <Input 
-          type="text" 
-          placeholder="Surname" 
-          value={surname} 
-          onChange={(e) => setSurname(e.target.value)} 
-          required 
-        />
-        <Input 
-          type="number" 
-          placeholder="Age" 
-          value={age} 
-          onChange={(e) => setAge(e.target.value)} 
-          required 
-        />
-        <Input 
-          type="text" 
-          placeholder="ID Number" 
-          value={idNumber} 
-          onChange={(e) => setIdNumber(e.target.value)} 
-          required 
-        />
-        <Input 
-          type="text" 
-          placeholder="Role in Company" 
-          value={role} 
-          onChange={(e) => setRole(e.target.value)} 
-          required 
-        />
-        <Input 
-          type="file" 
-          accept="image/*" 
-          onChange={handleFileChange} 
-        />
-        <Button type="submit">
-          {editingEmployee ? 'Update Employee' : 'Add Employee'}
-        </Button>
-      </StyledForm>
-    </FormContainer>
+    <form onSubmit={handleSubmit}>
+      <input type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} required />
+      <input type="text" placeholder="Surname" value={surname} onChange={(e) => setSurname(e.target.value)} required />
+      <input type="number" placeholder="Age" value={age} onChange={(e) => setAge(e.target.value)} required />
+      <input type="text" placeholder="ID Number" value={idNumber} onChange={(e) => setIdNumber(e.target.value)} required />
+      <input type="text" placeholder="Role" value={role} onChange={(e) => setRole(e.target.value)} required />
+      <input type="file" onChange={(e) => setPhoto(e.target.files[0])} /> {/* File input for photo */}
+      <button type="submit">{editingEmployee ? 'Update' : 'Add'} Employee</button>
+    </form>
   );
 };
 
