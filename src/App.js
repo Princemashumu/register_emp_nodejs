@@ -88,11 +88,11 @@ const App = () => {
         /> */}
         <Route
           path="/admins"
-          element={isAuthenticated ? <Admins /> : <Navigate to="/admins" />} // Add the Admins route here
+          element={isAuthenticated ? <Admins /> : <Navigate to="/Admins" />} // Add the Admins route here
         />
         <Route
           path="*"
-          element={<Navigate to="/login" />}
+          element={<Navigate to="/loginPage" />}
         />
       </Routes>
     </Router>

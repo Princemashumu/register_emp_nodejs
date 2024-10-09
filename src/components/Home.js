@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { signOut } from 'firebase/auth';
 import { auth } from '../firebaseConfig';
@@ -37,7 +37,7 @@ const Menu = styled.div`
   gap: 20px; /* Space between menu items */
 `;
 
-const MenuLink = styled(Link)`
+const MenuLink = styled.a`
   text-decoration: none;
   color: #004d40;
   font-size: 1em;
@@ -108,14 +108,14 @@ const Home = () => {
     <>
       <NavBar>
         <CompanyName>
-          <Link to="/Home" style={{ textDecoration: 'none', color: 'inherit' }}>
+          <a href="/Home" style={{ textDecoration: 'none', color: 'inherit' }}>
             <h1>ERStaff</h1>
-          </Link>
+          </a>
         </CompanyName>
         
         <Menu>
-          <MenuLink to="/admins">Admins</MenuLink>
-          <MenuLink to="/profile">Profile</MenuLink>
+          <MenuLink href="/Admins">Admins</MenuLink>
+          <MenuLink href="/profile">Profile</MenuLink>
         </Menu>
 
         <LogoutButton onClick={handleLogout}>
