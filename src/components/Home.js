@@ -11,7 +11,7 @@ const NavBar = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: white;
+  background-color: rgb(226 232 240);
   padding: 15px 30px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   position: fixed;
@@ -36,6 +36,7 @@ const CompanyName = styled.div`
 const Menu = styled.div`
   display: flex;
   gap: 20px;
+ 
 `;
 
 const MenuLink = styled.a`
@@ -72,7 +73,7 @@ const Wrapper = styled.div`
   align-items: center;
   border: 5px solid #007bff;
   border-radius: 8px;
-  background-color: rgb(6 182 212);
+  background-color: rgb(204 251 241);
   border-Top:none;
 `;
 
