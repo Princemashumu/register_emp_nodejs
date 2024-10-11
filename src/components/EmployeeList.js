@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './EmployeeList.css'; // Ensure you import your CSS file
 
 const EmployeeList = ({ employees, onEdit, onDelete }) => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -23,9 +24,16 @@ const EmployeeList = ({ employees, onEdit, onDelete }) => {
         placeholder="Search employees..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        style={{ marginBottom: '10px', padding: '5px' }}
+        style={{
+          marginBottom: '10px',
+          padding: '10px',
+          borderRadius: '5px',
+          border: '1px solid #ccc',
+          width: '100%',
+          maxWidth: '300px',
+        }}
       />
-      <table>
+      <table className="admin-table">
         <thead>
           <tr>
             <th>Name</th>
@@ -46,7 +54,11 @@ const EmployeeList = ({ employees, onEdit, onDelete }) => {
               <td>{employee.idNumber}</td>
               <td>{employee.role}</td>
               <td>
-                <img src={employee.photo} alt={employee.name} style={{ width: '50px', height: '50px' }} />
+                <img
+                  src={employee.photo}
+                  alt={employee.name}
+                  style={{ width: '50px', height: '50px' }} // Use consistent size
+                />
               </td>
               <td>
                 <button onClick={() => onEdit(employee)}>Edit</button>

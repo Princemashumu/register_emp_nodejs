@@ -7,7 +7,7 @@ import AddEmployeeModal from './components/AddEmployeeModal.js';
 import EmployeeData from './components/EmployeeData.js';
 import DeletedEmployeeTable from './components/DeletedEmployeeTable';
 import DeletedEmployeeModal from './components/DeletedEmployeeModal';
-import Admins from './components/Admins'; // Import Admins component
+import AdminPage from './components/AdminPage'; // Import Admins component
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -86,10 +86,7 @@ const App = () => {
           path="/deletedemployees"
           element={isAuthenticated ? <DeletedEmployeeTable deletedEmployees={deletedEmployees} /> : <Navigate to="/login" />}
         /> */}
-        <Route
-          path="/admins"
-          element={isAuthenticated ? <Admins /> : <Navigate to="/Admins" />} // Add the Admins route here
-        />
+        <Route path="/Admins" element={<AdminPage />} />
         <Route
           path="*"
           element={<Navigate to="/loginPage" />}

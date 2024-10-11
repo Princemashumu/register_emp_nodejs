@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { signOut } from 'firebase/auth';
-import { auth } from '../firebaseConfig';
+import { auth, db } from '../firebaseConfig'; // Import Firestore (db)
+import { collection, query, where, getDocs } from 'firebase/firestore';
 import EmployeeManager from './EmployeeManager';
+import ProfileDialog from './ProfileDialog';
 
-// Styled Components
 const NavBar = styled.div`
   display: flex;
   justify-content: space-between;
@@ -34,7 +35,7 @@ const CompanyName = styled.div`
 
 const Menu = styled.div`
   display: flex;
-  gap: 20px; /* Space between menu items */
+  gap: 20px;
 `;
 
 const MenuLink = styled.a`
@@ -44,7 +45,7 @@ const MenuLink = styled.a`
   transition: color 0.3s ease;
 
   &:hover {
-    color: #f44336; /* Change color on hover */
+    color: #f44336;
   }
 `;
 
@@ -64,11 +65,15 @@ const LogoutButton = styled.button`
 `;
 
 const Wrapper = styled.div`
-  margin-top: 80px;  // Adjusted margin to account for fixed NavBar
+  margin-top: 80px;
   padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  border: 5px solid #007bff;
+  border-radius: 8px;
+  background-color: rgb(6 182 212);
+  border-Top:none;
 `;
 
 const Header = styled.div`
@@ -94,11 +99,43 @@ const MainFooter = styled.div`
 
 const Home = () => {
   const navigate = useNavigate();
+  const [showProfile, setShowProfile] = useState(false); // State for dialog visibility
+  const [showAdminLink, setShowAdminLink] = useState(true); // State to manage if the Admins link should show
+  const [profile, setProfile] = useState(null); // State to store profile data
+  const currentUser = auth.currentUser;
+
+  useEffect(() => {
+    const checkAdminStatus = async () => {
+      if (currentUser) {
+        const email = currentUser.email;
+
+        // Query Firestore collection to check if email is in `admins`
+        const q = query(collection(db, 'admins'), where('email', '==', email));
+        const querySnapshot = await getDocs(q);
+
+        // If email exists in admins collection, hide the Admins link (setShowAdminLink to false)
+        setShowAdminLink(querySnapshot.empty); // If no documents found, it means email is NOT in admins collection
+        
+        // Fetch the user's profile if they are in the admins collection
+        if (!querySnapshot.empty) {
+          const adminData = querySnapshot.docs[0].data();
+          setProfile({
+            name: adminData.name,
+            surname: adminData.surname,
+            email: adminData.email,
+            photo: adminData.photo, // Assuming you have a photo field
+          });
+        }
+      }
+    };
+
+    checkAdminStatus();
+  }, [currentUser]);
 
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      navigate('/'); // Redirect to login or home page after sign-out
+      navigate('/'); // Redirect to login page after sign-out
     } catch (error) {
       console.error('Error logging out:', error);
     }
@@ -114,8 +151,8 @@ const Home = () => {
         </CompanyName>
         
         <Menu>
-          <MenuLink href="/Admins">Admins</MenuLink>
-          <MenuLink href="/profile">Profile</MenuLink>
+          {showAdminLink && <MenuLink href="/Admins">Admins</MenuLink>} {/* Conditionally render Admins link */}
+          <MenuLink onClick={() => setShowProfile(true)}>Profile</MenuLink> {/* Open Profile Dialog */}
         </Menu>
 
         <LogoutButton onClick={handleLogout}>
@@ -129,13 +166,20 @@ const Home = () => {
           <p>Design and manage employees efficiently.</p>
         </Header>
 
-        {/* EmployeeManager will handle all employee CRUD operations */}
         <EmployeeManager />
 
         <MainFooter>
           <p>Media and Graphics Prince Mashumu 2024</p>
         </MainFooter>
       </Wrapper>
+
+      {/* Show Profile Dialog */}
+      {showProfile && profile && (
+        <ProfileDialog 
+          profile={profile} 
+          onClose={() => setShowProfile(false)} // Close dialog
+        />
+      )}
     </>
   );
 };
