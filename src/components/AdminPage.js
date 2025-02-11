@@ -73,7 +73,7 @@ const Wrapper = styled.div`
   align-items: center;
   border: 5px solid #007bff; /* Add a border around the AdminPage */
   border-radius: 8px; /* Optional: rounded corners */
-  background-color: rgb(6 182 212); /* Optional: background color */
+  background-color: #ffffff; /* Optional: background color */
   border-Top:none;
  
 `;

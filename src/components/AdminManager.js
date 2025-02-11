@@ -70,7 +70,8 @@ const AdminManager = () => {
         idNumber: adminData.idNumber,  
         email: adminData.email,
         role: adminData.role || 'sysadmin', // Default role
-        photo: photoURL                 // Save the URL instead of the file object
+        photo: photoURL,                 // Save the URL instead of the file object
+        isBlocked: false // Default to not blocked
       };
 
       if (editingAdmin) {
@@ -89,6 +90,21 @@ const AdminManager = () => {
       fetchAdmins(); // Refresh the admin list
     } catch (error) {
       setError('Error saving admin data: ' + error.message);
+      console.error(error);
+    }
+  };
+
+  // Handle block operation
+  const handleBlock = async (id, isBlocked) => {
+    const confirmBlock = window.confirm(`Are you sure you want to ${isBlocked ? 'unblock' : 'block'} this admin?`);
+    if (!confirmBlock) return;
+
+    try {
+      const adminRef = doc(db, 'admins', id);
+      await updateDoc(adminRef, { isBlocked: !isBlocked }); // Toggle block status
+      fetchAdmins(); // Refresh admin list
+    } catch (error) {
+      setError('Error updating admin status');
       console.error(error);
     }
   };
@@ -129,7 +145,7 @@ const AdminManager = () => {
       {loading ? (
         <p>Loading admins...</p>
       ) : (
-        <AdminList admins={admins} onEdit={handleEdit} onDelete={handleDelete} />
+        <AdminList admins={admins} onEdit={handleEdit} onDelete={handleDelete} onBlock={handleBlock} />
       )}
       <h2>Deleted Admins</h2>
       <DeletedAdminList deletedAdmins={deletedAdmins} />

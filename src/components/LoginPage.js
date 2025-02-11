@@ -65,7 +65,8 @@ const LoginWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 40px;
-  margin-top: 70px; /* Adjusted for fixed NavBar */
+  height:"200px";
+  margin-top: 100px; /* Adjusted for fixed NavBar */
 `;
 
 const Header = styled.div`
@@ -85,7 +86,7 @@ const Header = styled.div`
 
 const Footer = styled.div`
   text-align: center;
-  margin-top: 20px;
+  margin-top: 1px;
   color: #777;
 `;
 
@@ -118,6 +119,10 @@ const MenuLink = styled(Link)`
   text-decoration: none;
   border-radius: 5px;
   font-weight: bold;
+  position: fixed;
+  top: 80px;
+  right: 30px;
+  z-index: 1000;
 
   &:hover {
     background-color: darkred; /* Darker shade on hover */
@@ -203,7 +208,7 @@ const LoginPage = () => {
           <p>Media and Graphics Prince Mashumu 2024</p>
         </Footer>
       </LoginWrapper>
-      <SocMedContainer>
+      {/* <SocMedContainer>
         <a href="https://www.facebook.com/eTvStaff/" target="_blank" rel="noopener noreferrer">
           <img id="fb-img" width="25" src="https://i.imgur.com/6ye5lwf.png" alt="Facebook" />
         </a>
@@ -213,7 +218,7 @@ const LoginPage = () => {
         <a href="https://www.twitter.com/eTvStaff/" target="_blank" rel="noopener noreferrer">
           <img id="twitter-img" width="25" src="https://i.imgur.com/y8o23cc.png" alt="Twitter" />
         </a>
-      </SocMedContainer>
+      </SocMedContainer> */}
 
       {/* Snackbar for successful login */}
       <Snackbar

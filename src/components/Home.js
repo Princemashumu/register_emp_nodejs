@@ -73,7 +73,7 @@ const Wrapper = styled.div`
   align-items: center;
   border: 5px solid #007bff;
   border-radius: 8px;
-  background-color: rgb(204 251 241);
+  background-color: white;
   border-Top:none;
 `;
 
